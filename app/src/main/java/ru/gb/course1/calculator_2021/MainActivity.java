@@ -134,7 +134,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void point_btn(View view) {
-        updateText(".");
+        int cursorPos = display.getSelectionStart();
+        int checkPoint = 0;
+        int textLen = display.getText().length();
+        for (int i = 0; i < cursorPos; i++) {
+            if (display.getText().toString().charAt(i) == '.') {
+                checkPoint += 1;
+            }
+        }
+        if (checkPoint == 0)  {
+            updateText(".");
+        } else return;
+
+        display.setSelection(cursorPos + 1);
     }
 
     public void equals_btn(View view) {

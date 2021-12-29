@@ -94,7 +94,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void parentheses_btn(View view) {
-        updateText("");
+        int cursorPos = display.getSelectionStart();
+        int openPar = 0;
+        int closePar = 0;
+        int textLen = display.getText().length();
+        for (int i = 0; i < cursorPos; i++) {
+            if (display.getText().toString().substring(i, i + 1).equals("(")) {
+                openPar += 1;
+            }
+            if (display.getText().toString().substring(i, i + 1).equals(")")) {
+                closePar += 1;
+            }
+        }
+        if (openPar == closePar || display.getText().toString().substring(textLen - 1, textLen).equals("(")) {
+            updateText("(");
+        } else if (closePar < openPar && !display.getText().toString().substring(textLen - 1, textLen).equals("(")) {
+            updateText(")");
+        }
+        display.setSelection(cursorPos + 1);
     }
 
     public void divide_btn(View view) {
@@ -129,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         int cursorPos = display.getSelectionStart();
         int textLen = display.getText().length();
 
-        if(cursorPos != 0 && textLen != 0){
+        if (cursorPos != 0 && textLen != 0) {
             SpannableStringBuilder selection = (SpannableStringBuilder) display.getText();
             selection.replace(cursorPos - 1, cursorPos, "");
             display.setText(selection);

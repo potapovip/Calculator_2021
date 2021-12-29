@@ -3,6 +3,7 @@ package ru.gb.course1.calculator_2021;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.EditText;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         String rightStr = oldStr.substring(cursorPos);
         if (getString(R.string.display).equals(display.getText().toString())) {
             display.setText(strToAdd);
+            display.setSelection(cursorPos + 1);
         } else {
             display.setText(String.format("%s%s%s", leftStr, strToAdd, rightStr));
             display.setSelection(cursorPos + 1);
@@ -124,7 +126,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void backspace_btn(View view) {
-        updateText("");
+        int cursorPos = display.getSelectionStart();
+        int textLen = display.getText().length();
+
+        if(cursorPos != 0 && textLen != 0){
+            SpannableStringBuilder selection = (SpannableStringBuilder) display.getText();
+            selection.replace(cursorPos - 1, cursorPos, "");
+            display.setText(selection);
+            display.setSelection(cursorPos - 1);
+        }
     }
 
 }

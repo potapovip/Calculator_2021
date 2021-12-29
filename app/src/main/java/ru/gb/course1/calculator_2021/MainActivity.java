@@ -18,14 +18,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         display = findViewById(R.id.input);
         display.setShowSoftInputOnFocus(false);
-        display.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (getString(R.string.display).equals(display.getText().toString())) {
-                    display.setText("");
-                }
-
+        display.setOnClickListener(view -> {
+            if (getString(R.string.display).equals(display.getText().toString())) {
+                display.setText("");
             }
+
         });
     }
 
@@ -99,16 +96,16 @@ public class MainActivity extends AppCompatActivity {
         int closePar = 0;
         int textLen = display.getText().length();
         for (int i = 0; i < cursorPos; i++) {
-            if (display.getText().toString().substring(i, i + 1).equals("(")) {
+            if (display.getText().toString().charAt(i) == '(') {
                 openPar += 1;
             }
-            if (display.getText().toString().substring(i, i + 1).equals(")")) {
+            if (display.getText().toString().charAt(i) == ')') {
                 closePar += 1;
             }
         }
-        if (openPar == closePar || display.getText().toString().substring(textLen - 1, textLen).equals("(")) {
+        if (openPar == closePar || display.getText().toString().charAt(textLen - 1) == '(') {
             updateText("(");
-        } else if (closePar < openPar && !display.getText().toString().substring(textLen - 1, textLen).equals("(")) {
+        } else if (closePar < openPar && display.getText().toString().charAt(textLen - 1) != '(') {
             updateText(")");
         }
         display.setSelection(cursorPos + 1);

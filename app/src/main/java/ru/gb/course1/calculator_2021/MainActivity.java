@@ -7,6 +7,8 @@ import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.EditText;
 
+import org.mariuszgromada.math.mxparser.*;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText display;
@@ -128,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void plusMinus_btn(View view) {
-        updateText("+/-");
+        updateText("-");
     }
 
     public void point_btn(View view) {
@@ -136,7 +138,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void equals_btn(View view) {
-        updateText("");
+        String userExp = display.getText().toString();
+        userExp = userExp.replaceAll("÷", "/");
+        userExp = userExp.replaceAll("×", "*");
+
+        Expression expression = new Expression(userExp);
+
+        String result = String.valueOf(expression.calculate());
+        display.setText(result);
+        display.setSelection(result.length());
     }
 
     public void backspace_btn(View view) {

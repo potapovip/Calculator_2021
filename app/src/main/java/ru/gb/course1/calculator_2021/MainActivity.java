@@ -135,17 +135,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void point_btn(View view) {
         int cursorPos = display.getSelectionStart();
-        int checkPoint = 0;
+        int decimalInit = 0;
+        int operatInit = 0;
         int textLen = display.getText().length();
         for (int i = 0; i < cursorPos; i++) {
             if (display.getText().toString().charAt(i) == '.') {
-                checkPoint += 1;
+                decimalInit += 1;
+            }
+            if ((display.getText().toString().charAt(i) == '÷') || (display.getText().toString().charAt(i) == '×')|| (display.getText().toString().charAt(i) == '+')|| (display.getText().toString().charAt(i) == '-')|| (display.getText().toString().charAt(i) == '^')) {
+                operatInit += 1;
             }
         }
-        if (checkPoint == 0)  {
+        if (decimalInit <= operatInit && display.getText().toString().charAt(textLen - 1) != '.')  {
             updateText(".");
-        } else return;
-
+        }
+        else return;
         display.setSelection(cursorPos + 1);
     }
 

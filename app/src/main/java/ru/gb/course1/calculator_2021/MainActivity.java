@@ -2,6 +2,7 @@ package ru.gb.course1.calculator_2021;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.view.View;
@@ -26,6 +27,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        pasteText();
     }
 
     private void updateText(String strToAdd) {
@@ -163,6 +169,21 @@ public class MainActivity extends AppCompatActivity {
         String result = String.valueOf(expression.calculate());
         display.setText(result);
         display.setSelection(result.length());
+    }
+//    private void showField() {
+//        calcText.setText(memory.entryField.toString());
+//    }
+
+    private void pasteText() {
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.endsWith(action) && type.equals("text/*")) {
+//            buttonOptions.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+            display.setText(intent.getStringExtra(Intent.EXTRA_TEXT));
+//            showField();
+        }
     }
 
     public void backspace_btn(View view) {
